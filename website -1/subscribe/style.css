@@ -1,0 +1,13 @@
+#subscribe-btn {
+    /* Button styles */
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+
+#subscribe-btn:active {
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
+}
+

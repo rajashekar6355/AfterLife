@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Subscribe Form</title>
+    <!-- Include Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+
+<body>
+    <!-- Your subscribe form goes here -->
+    <div id="subscribe-form">
+        <h2>Subscribe to our Newsletter</h2>
+        <form id="form">
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+        <p id="message"></p>
+    </div>
+    
+
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCG-dxvL5xfMiPXHW6i1Na7KwwH6xD74o8",
+            authDomain: "subscribe-13825.firebaseapp.com",
+            projectId: "subscribe-13825",
+            storageBucket: "subscribe-13825.appspot.com",
+            messagingSenderId: "988835029954",
+            appId: "1:988835029954:web:f83f4b909bfd70c405ac5b",
+            measurementId: "G-C7TME42WLH"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Initialize Firestore
+        const db = firebase.firestore();
+
+        // Reference to the form and message elements
+        const form = document.getElementById('form');
+        const emailInput = document.getElementById('email');
+        const messageElement = document.getElementById('message');
+
+        // Add a submit event listener to the form
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            // Get the email value
+            const email = emailInput.value;
+
+            if (!email) {
+                messageElement.textContent = 'Please enter a valid email address.';
+                return;
+            }
+
+            // Add the email to Firestore
+            db.collection('subscribers').add({
+                email: email,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+                .then(() => {
+                    messageElement.textContent = 'Subscription successful!';
+                    form.reset(); // Clear the form
+                })
+                .catch((error) => {
+                    console.error('Error adding document: ', error);
+                    messageElement.textContent = 'Error during subscription. Please try again.';
+                });
+        });
+    </script>
+</body>
+
+</html>
